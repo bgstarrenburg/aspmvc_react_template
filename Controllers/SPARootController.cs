@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace aspmvc_react.Controllers
 {
-    public class SPARootController : Controller
+  public class SPARootController : Controller
+  {
+
+    public SPARootController() { }
+
+    public IActionResult Index()
     {
-
-        public SPARootController() { }
-
-        public IActionResult Index()
-        {
-            ViewData["Title"] = "My SPA App";
-            return View();
-        }
+      ViewData["Title"] = "My SPA App";
+      return View();
     }
+  }
 }
