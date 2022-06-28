@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using web_react_mvc.Models;
+using aspmvc_react.Models;
 
-namespace web_react_mvc.Migrations
+namespace aspmvc_react.Migrations
 {
     [DbContext(typeof(DBContextModel))]
     partial class DBContextModelModelSnapshot : ModelSnapshot

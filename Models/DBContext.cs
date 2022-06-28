@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace web_react_mvc.Models
+namespace aspmvc_react.Models
 {
     public class DBContextModel : DbContext
     {

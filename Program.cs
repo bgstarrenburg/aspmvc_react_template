@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace web_react_mvc
+namespace aspmvc_react
 {
     public class Program
     {

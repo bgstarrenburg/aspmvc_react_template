@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "web_react_mvc": {
+    "aspmvc_react": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "launchBrowser": true,

@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace web_react_mvc.Controllers
+namespace aspmvc_react.Controllers
 {
     public class SPARootController : Controller
     {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace web_react_mvc.Migrations
+namespace aspmvc_react.Migrations
 {
     public partial class initialMigration : Migration
     {

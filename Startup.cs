@@ -10,9 +10,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Npgsql;
-using web_react_mvc.Models;
+using aspmvc_react.Models;
 
-namespace web_react_mvc
+namespace aspmvc_react
 {
     public class Startup
     {
