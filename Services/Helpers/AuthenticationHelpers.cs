@@ -25,7 +25,9 @@ namespace aspmvc_react.Helpers
     public bool IsSessionValid(string cookieName) {
       var sessionsCookie = session.Get(cookieName);
       if (sessionsCookie == null) return false;
-      return true;
+      var user = ByteArrayToObject(sessionsCookie);
+      if (user is User) return true;
+      return false;
     } 
 
     public void LoginUser(User user, string cookieName) {
@@ -40,6 +42,17 @@ namespace aspmvc_react.Helpers
         bf.Serialize(ms, obj);
         return ms.ToArray();
     }
+}
+
+    private Object ByteArrayToObject(byte[] arrBytes)
+{
+    MemoryStream memStream = new MemoryStream();
+    BinaryFormatter binForm = new BinaryFormatter();
+    memStream.Write(arrBytes, 0, arrBytes.Length);
+    memStream.Seek(0, SeekOrigin.Begin);
+    Object obj = (Object) binForm.Deserialize(memStream);
+
+    return obj;
 }
   }
 }
