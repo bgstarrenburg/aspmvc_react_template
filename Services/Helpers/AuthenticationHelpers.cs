@@ -1,16 +1,7 @@
 using aspmvc_react.Models;
-using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Security.Cryptography;
 using Microsoft.AspNetCore.Http;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using System.Text.Json;
 
 namespace aspmvc_react.Helpers
 {
@@ -22,37 +13,52 @@ namespace aspmvc_react.Helpers
       this.session = httpContextAccessor.HttpContext.Session;
     }
 
-    public bool IsSessionValid(string cookieName) {
-      var sessionsCookie = session.Get(cookieName);
-      if (sessionsCookie == null) return false;
-      var user = ByteArrayToObject(sessionsCookie);
-      if (user is User) return true;
-      return false;
-    } 
-
-    public void LoginUser(User user, string cookieName) {
-      var userAsBytes = ObjectToByteArray(user);
-      session.Set(cookieName, userAsBytes); 
-    }
-    public static byte[] ObjectToByteArray(Object obj)
-{
-    BinaryFormatter bf = new BinaryFormatter();
-    using (var ms = new MemoryStream())
+    public bool IsSessionValid(string cookieName)
     {
-        bf.Serialize(ms, obj);
-        return ms.ToArray();
+      try
+      {
+        var sessionsCookie = session.Get(cookieName);
+        if (sessionsCookie == null) return false;
+        var user = ByteArrayToObject<User>(sessionsCookie);
+        if (user != null) return true;
+        return false;
+      } catch
+      {
+        return false;
+      }
     }
-}
 
-    private Object ByteArrayToObject(byte[] arrBytes)
-{
-    MemoryStream memStream = new MemoryStream();
-    BinaryFormatter binForm = new BinaryFormatter();
-    memStream.Write(arrBytes, 0, arrBytes.Length);
-    memStream.Seek(0, SeekOrigin.Begin);
-    Object obj = (Object) binForm.Deserialize(memStream);
+    public void LoginUser(User user, string cookieName)
+    {
+      var userAsBytes = ObjectToByteArray(user);
+      session.Set(cookieName, userAsBytes);
+    }
 
-    return obj;
-}
+    public byte[] ObjectToByteArray(object obj)
+    {
+      using (MemoryStream m = new MemoryStream())
+      {
+        using (BinaryWriter writer = new BinaryWriter(m))
+        {
+          var serialized = JsonSerializer.Serialize(obj);
+          writer.Write(serialized);
+        }
+        return m.ToArray();
+      }
+    }
+
+    public object ByteArrayToObject<T>(byte[] data)
+    {
+      T result = default(T);
+      using (MemoryStream m = new MemoryStream(data))
+      {
+        using (BinaryReader reader = new BinaryReader(m))
+        {
+          var jsonString = reader.ReadString();
+          result = JsonSerializer.Deserialize<T>(jsonString);
+        }
+      }
+      return result;
+    }
   }
 }

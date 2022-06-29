@@ -1,15 +1,9 @@
+using aspmvc_react.Helpers;
 using aspmvc_react.Models;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Security.Cryptography;
-using Microsoft.AspNetCore.Http;
-using aspmvc_react.Helpers;
 
 namespace aspmvc_react.Services
 {
@@ -32,12 +26,11 @@ namespace aspmvc_react.Services
         string username = request.UserName, email = request.EmailAdress, password = request.Password;
         if (UserExists(username, email)) return null; //this should never happen
         string passwordHash = HashPassword(password);
-        var user = new User() {Id = new Guid(), EmailAdress = email, PaswordHash = password, UserName = username };
+        var user = new User() { Id = new Guid(), EmailAdress = email, PaswordHash = passwordHash, UserName = username };
         var isLoggedIn = authenticationHelpers.IsSessionValid(cookieName);
         context.Users.Add(user);
         await context.SaveChangesAsync();
         authenticationHelpers.LoginUser(user, cookieName);
-        isLoggedIn = authenticationHelpers.IsSessionValid(cookieName);
         return user;
       }
       catch (System.Exception e)
@@ -65,12 +58,10 @@ namespace aspmvc_react.Services
       }
     }
 
-    public string HashPassword(string password) {
+    public string HashPassword(string password)
+    {
+      //TODO password hash must be equal when same password is entered
       byte[] salt = new byte[16];
-      using (var rng = RandomNumberGenerator.Create())
-      {
-          rng.GetNonZeroBytes(salt);
-      }
       string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
             password: password,
             salt: salt,
@@ -79,15 +70,18 @@ namespace aspmvc_react.Services
             numBytesRequested: 16));
       return hashed;
     }
-    public bool UserExists(string userName, string email) {
+    public bool UserExists(string userName, string email)
+    {
       var user = context.Users.FirstOrDefault(u => u.UserName == userName || u.EmailAdress == email);
       return user != null;
     }
-    public bool UserNameExists(string userName) {
+    public bool UserNameExists(string userName)
+    {
       var user = context.Users.FirstOrDefault(u => u.UserName == userName);
       return user != null;
     }
-    public bool EmailAdressExists(string email) {
+    public bool EmailAdressExists(string email)
+    {
       var user = context.Users.FirstOrDefault(u => u.EmailAdress == email);
       return user != null;
     }

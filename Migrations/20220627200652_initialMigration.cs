@@ -2,16 +2,16 @@
 
 namespace aspmvc_react.Migrations
 {
-    public partial class initialMigration : Migration
+  public partial class initialMigration : Migration
+  {
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
 
-        }
-
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-
-        }
     }
+
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
+
+    }
+  }
 }

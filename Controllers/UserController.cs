@@ -1,15 +1,11 @@
 using aspmvc_react.Models;
 using aspmvc_react.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace aspmvc_react.Controllers
 {
+  [ValidateAntiForgeryToken]
   [Route("api/user")]
   public class UserController : Controller
   {
@@ -21,7 +17,6 @@ namespace aspmvc_react.Controllers
       this.userService = userService;
     }
 
-    // [ValidateAntiForgeryToken]
     [HttpPost("registration")]
     public async Task<IActionResult> Registration([FromBody] RegistrationRequest request)
     {
@@ -29,9 +24,9 @@ namespace aspmvc_react.Controllers
       {
         if (!ModelState.IsValid) return BadRequest();
 
-        var createdUser = await userService.CreateUser(request);
-        if (createdUser != null) return BadRequest();
-        return Ok(createdUser);
+        var user = await userService.CreateUser(request);
+        if (user == null) return BadRequest();
+        return Ok(new UserResponse() { Id = user.Id, EmailAdress = user.EmailAdress, UserName = user.UserName });
       }
       catch (System.Exception e)
       {
@@ -47,9 +42,9 @@ namespace aspmvc_react.Controllers
       {
         if (!ModelState.IsValid) return BadRequest();
 
-        var loginUser = userService.LoginUser(request);
-        if (loginUser == null) return BadRequest();
-        return Ok(loginUser);
+        var user = userService.LoginUser(request);
+        if (user == null) return BadRequest();
+        return Ok(new UserResponse() { Id = user.Id, EmailAdress = user.EmailAdress, UserName = user.UserName });
       }
       catch (System.Exception e)
       {

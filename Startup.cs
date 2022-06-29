@@ -1,20 +1,14 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Npgsql;
+using aspmvc_react.Helpers;
 using aspmvc_react.Models;
 using aspmvc_react.Services;
-using aspmvc_react.Helpers;
-using System.Net.Http;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using System.Net.Http;
 
 namespace aspmvc_react
 {
@@ -35,10 +29,10 @@ namespace aspmvc_react
            options.UseNpgsql(Configuration.GetConnectionString("postgresConnectionString"));
          });
       services.AddControllersWithViews();
-        services.AddSession();
-        services.AddHttpClient();
-    services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-    services.AddSingleton(new HttpClient(new HttpClientHandler
+      services.AddSession();
+      services.AddHttpClient();
+      services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+      services.AddSingleton(new HttpClient(new HttpClientHandler
       {
         AllowAutoRedirect = false,
         UseCookies = false
@@ -54,8 +48,7 @@ namespace aspmvc_react
       if (env.IsDevelopment())
       {
         app.UseDeveloperExceptionPage();
-      }
-      else
+      } else
       {
         // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
         app.UseHsts();
