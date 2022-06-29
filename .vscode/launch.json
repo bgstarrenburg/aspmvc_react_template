@@ -6,7 +6,7 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
-      "program": "${workspaceFolder}/bin/Debug/net5.0/aspmvc_react.dll",
+      "program": "${workspaceFolder}/bin/Debug/6.0/aspmvc_react.dll",
       "args": [],
       "cwd": "${workspaceFolder}",
       "stopAtEntry": false,
